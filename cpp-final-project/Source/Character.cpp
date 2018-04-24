@@ -32,7 +32,7 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 	};
 }**/, mJumpCommand() {
 	std::cout << "Jumped" << std::endl;
-	mJumpCommand.action = [this](SceneNode& node, sf::Time) {
+	mJumpCommand.action = [this, &textures](SceneNode& node, sf::Time) {
 	
 
 	};
@@ -102,7 +102,7 @@ float Character::getMaxSpeed() const{
 void Character::jumpInterval() {
 	//std::cout << "Jump interval called" << std::endl;
 	if (Table[mType].jumpInterval != sf::Time::Zero) {
-		std::cout << "Jump rate is 0" << std::endl;
+		//std::cout << "Jump rate is 0" << std::endl;
 		 mJumpRate = true;
 	}
 }

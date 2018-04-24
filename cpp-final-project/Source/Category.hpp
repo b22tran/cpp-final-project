@@ -11,7 +11,6 @@ namespace Category{
 		PlayerBullet = 1 << 3,
 		EnemyBullet = 1 << 4,
 
-		Character = PlayerCharacter | EnemyCharacter ,
 		Bullet = PlayerBullet | EnemyBullet
 	};
 }

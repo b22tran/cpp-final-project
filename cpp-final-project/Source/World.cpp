@@ -27,8 +27,8 @@ World::World(sf::RenderWindow& window)
 	// Prepare the view
 	//mWorldView.setCenter(mSpawnPosition);
 	//probably better way to get y pos.. but better than nothing :^)
-	mPlayerCharacter->setPosition(235.f, mWorldBounds.height - mWorldView.getSize().y / 2);
-	mEnemyCharacter->setPosition(235.f, mWorldBounds.height - mWorldView.getSize().y / 2);
+	mPlayerCharacter->setPosition(600.f, mWorldBounds.height - mWorldView.getSize().y / 2);
+	mEnemyCharacter->setPosition(100.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
 
 void World::update(sf::Time dt)
@@ -40,14 +40,17 @@ void World::update(sf::Time dt)
 	mEnemyCharacter->setVelocity(0.f, 150.f);
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
-	while (!mCommandQueue.isEmpty())
+	while (!mCommandQueue.isEmpty()) {
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
-	adaptPlayerVelocity();
+		adaptPlayerVelocity();
+		adaptEnemyVelocity();
+	}
 
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
 	adaptPlayerPosition();
+	adaptEnemyPosition();
 }
 
 void World::draw()
@@ -113,7 +116,6 @@ void World::adaptPlayerVelocity()
 	// If moving diagonally, reduce velocity (to have always same velocity)
 	if (velocity.x != 0.f && velocity.y != 0.f)
 		mPlayerCharacter->setVelocity(velocity / std::sqrt(2.f));
-		mEnemyCharacter->setVelocity(velocity / std::sqrt(2.f));
 }
 
 void World::adaptEnemyVelocity()
@@ -155,7 +157,7 @@ void World::buildScene(){
 	// Add second player's character
 	std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
 	mEnemyCharacter = enemy.get();
-	mEnemyCharacter->setPosition(mWorldBounds.left, mWorldBounds.top/2.0);
+	mEnemyCharacter->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Air]->attachChild(std::move(enemy));
 
 }

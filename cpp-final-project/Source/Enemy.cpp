@@ -31,7 +31,7 @@ Enemy::Enemy() {
 	// Set initial action bindings
 	initializeActions();
 
-	// Assign all categories to player's aircraft
+	// Assign all categories to player's body
 	FOREACH(auto& pair, mActionBinding)
 		pair.second.category = Category::EnemyCharacter;
 }
@@ -79,9 +79,10 @@ sf::Keyboard::Key Enemy::getAssignedKey(Action action) const {
 void Enemy::initializeActions() {
 	const float playerSpeed = 250.f;
 
-	mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
-		c.jumpInterval();
-	});
+	mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {std::cout << "Enemy Up Called!! Yay" << std::endl; });
+	//mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
+	//	c.jumpInterval();
+	//});
 
 	//mActionBinding[MoveUp].action = (derivedAction<Character>(CharacterMover(0.f, -playerSpeed * 8)), derivedAction<Character>([](Character& c, sf::Time) {
 	//	std::cout << "Jump Lambda called" << std::endl;

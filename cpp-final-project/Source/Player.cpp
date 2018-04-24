@@ -31,7 +31,7 @@ Player::Player(){
 	// Set initial action bindings
 	initializeActions();	
 
-	// Assign all categories to player's aircraft
+	// Assign all categories to player's body
 	FOREACH(auto& pair, mActionBinding)
 		pair.second.category = Category::PlayerCharacter;
 }
