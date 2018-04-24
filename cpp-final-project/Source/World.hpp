@@ -31,14 +31,11 @@ class World : private sf::NonCopyable{
 		void buildScene();
 		void adaptPlayerPosition();
 		void adaptPlayerVelocity();
-		void addEnemies();
-		void addEnemy(Character::Type type, float relX, float relY);
-		void spawnEnemies();
+		void adaptEnemyPosition();
+		void adaptEnemyVelocity();
+	
 		sf::FloatRect getViewBounds() const;
-		sf::FloatRect getEnemySpawnBounds() const;
-		void handleCollisions();
-		void destroyActorsOutsideView();
-
+	
 		enum Layer{
 			Background,
 			Air,
@@ -69,6 +66,6 @@ class World : private sf::NonCopyable{
 		sf::Vector2f mSpawnPosition;
 		float mScrollSpeed;
 		Character* mPlayerCharacter;
+		Character* mEnemyCharacter;
 
-		std::vector<SpawnPoint> mEnemySpawnPoints;
 };

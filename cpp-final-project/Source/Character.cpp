@@ -17,12 +17,9 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 , mSprite(textures.get(Table[type].texture))
 , mTravelledDistance(0.f)
 , mDirectionIndex(0)
-, mFireCountdown(sf::Time::Zero)
-, mIsFiring(false)
 , mJumpRate(false)
 , mJumpCountdown(sf::Time::Zero)
 , mJumpRateLevel(1)
-, mFireRateLevel(1)
 /**, mFireCommand(){
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
@@ -103,7 +100,7 @@ float Character::getMaxSpeed() const{
 
 //get jump interval
 void Character::jumpInterval() {
-	std::cout << "Jump interval called" << std::endl;
+	//std::cout << "Jump interval called" << std::endl;
 	if (Table[mType].jumpInterval != sf::Time::Zero) {
 		std::cout << "Jump rate is 0" << std::endl;
 		 mJumpRate = true;
@@ -172,7 +169,7 @@ void Character::checkBulletLaunch(sf::Time dt, CommandQueue& commands){
 //Creates bullet by calling createProjectile, which handles the actual shooting
 void Character::createBullets(SceneNode& node, const TextureHolder& textures) const{
 	//if player shooting, it's a pokeball do this, else it's an enemy projectile
-	Weapon::Type type = isAllied() ? Weapon::PlayerBullet : Weapon::EnemyProjectile;
+	Weapon::Type type = isAllied() ? Weapon::PlayerBullet : Weapon::EnemyBullet;
 		createProjectile(node, type, 0.0f, 0.5f, textures);
 		//std::cout << "Bullet created...";
 }

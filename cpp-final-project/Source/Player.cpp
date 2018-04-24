@@ -26,7 +26,7 @@ Player::Player(){
 	mKeyBinding[sf::Keyboard::Down] = MoveDown;
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
-	mKeyBinding[sf::Keyboard::Space] = Shoot;
+	mKeyBinding[sf::Keyboard::RShift] = Shoot;
 
 	// Set initial action bindings
 	initializeActions();	

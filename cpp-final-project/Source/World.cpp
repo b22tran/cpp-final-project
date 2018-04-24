@@ -19,7 +19,7 @@ World::World(sf::RenderWindow& window)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(0.f)
 , mPlayerCharacter(nullptr)
-, mEnemySpawnPoints()
+, mEnemyCharacter(nullptr)
 {
 	loadTextures();
 	buildScene();
@@ -28,6 +28,7 @@ World::World(sf::RenderWindow& window)
 	//mWorldView.setCenter(mSpawnPosition);
 	//probably better way to get y pos.. but better than nothing :^)
 	mPlayerCharacter->setPosition(235.f, mWorldBounds.height - mWorldView.getSize().y / 2);
+	mEnemyCharacter->setPosition(235.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
 
 void World::update(sf::Time dt)
@@ -36,21 +37,13 @@ void World::update(sf::Time dt)
 	//mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
 	//mWorldView.setCenter(mWorldView.getSize().x / 2.f, mWorldView.getSize().y / 2.f);
 	mPlayerCharacter->setVelocity(0.f, 150.f);
+	mEnemyCharacter->setVelocity(0.f, 150.f);
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 	adaptPlayerVelocity();
 
-	//destroy actors outside of the view to prevent it from lagging
-	destroyActorsOutsideView();
-
-	//handle collisions
-	handleCollisions();
-
-	// Remove all destroyed entities, create new ones
-	mSceneGraph.removeWrecks();
-	spawnEnemies();
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -74,11 +67,9 @@ void World::loadTextures()
 	mTextures.load(Textures::PlayerUp, "Media/Textures/CharacterUp.png");
 	mTextures.load(Textures::PlayerLeft, "Media/Textures/CharacterLeft.png");
 	mTextures.load(Textures::PlayerRight, "Media/Textures/CharacterRight.png");
+	mTextures.load(Textures::Enemy, "Media/Textures/Dragonite.png");
 	mTextures.load(Textures::Background, "Media/Textures/Background-dl.jpg");
 	mTextures.load(Textures::Ball, "Media/Textures/Pokeball.png");
-	mTextures.load(Textures::EnemyZ, "Media/Textures/Zubat.png");
-	mTextures.load(Textures::EnemyD, "Media/Textures/Dragonite.png");
-	mTextures.load(Textures::EnemyV, "Media/Textures/Electrode.png");
 	mTextures.load(Textures::Bomb, "Media/Textures/Electrode.png");
 	mTextures.load(Textures::BulletZ, "Media/Textures/BulletZ.png");
 	mTextures.load(Textures::BulletD, "Media/Textures/BulletD.png");
@@ -91,7 +82,7 @@ void World::adaptPlayerPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds = getViewBounds();
-	const float borderDistance = 20.0f;
+	const float borderDistance = 30.0f;
 
 	sf::Vector2f position = mPlayerCharacter->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance);
@@ -101,6 +92,20 @@ void World::adaptPlayerPosition()
 	mPlayerCharacter->setPosition(position);
 }
 
+void World::adaptEnemyPosition()
+{
+	// Keep player's position inside the screen bounds, at least borderDistance units from the border
+	sf::FloatRect viewBounds = getViewBounds();
+	const float borderDistance = 30.0f;
+
+	sf::Vector2f position = mEnemyCharacter->getPosition();
+	position.x = std::max(position.x, viewBounds.left + borderDistance);
+	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
+	position.y = std::max(position.y, viewBounds.top + borderDistance);
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+	mEnemyCharacter->setPosition(position);
+}
+
 void World::adaptPlayerVelocity()
 {
 	sf::Vector2f velocity = mPlayerCharacter->getVelocity();
@@ -108,8 +113,17 @@ void World::adaptPlayerVelocity()
 	// If moving diagonally, reduce velocity (to have always same velocity)
 	if (velocity.x != 0.f && velocity.y != 0.f)
 		mPlayerCharacter->setVelocity(velocity / std::sqrt(2.f));
+		mEnemyCharacter->setVelocity(velocity / std::sqrt(2.f));
 }
 
+void World::adaptEnemyVelocity()
+{
+	sf::Vector2f velocity = mEnemyCharacter->getVelocity();
+
+	// If moving diagonally, reduce velocity (to have always same velocity)
+	if (velocity.x != 0.f && velocity.y != 0.f)
+		mEnemyCharacter->setVelocity(velocity / std::sqrt(2.f));
+}
 
 void World::buildScene(){
 	// Initialize the different layers
@@ -137,66 +151,19 @@ void World::buildScene(){
 	mPlayerCharacter->setPosition(mSpawnPosition);
 	mSceneLayers[Air]->attachChild(std::move(player));
 
-	//add enemies to the scene
-	addEnemies();
+
+	// Add second player's character
+	std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
+	mEnemyCharacter = enemy.get();
+	mEnemyCharacter->setPosition(mWorldBounds.left, mWorldBounds.top/2.0);
+	mSceneLayers[Air]->attachChild(std::move(enemy));
+
 }
 
-//add multiple enemies to the world
-void World::addEnemies(){
-	// Add enemies to the spawn point container
-	for (int i = 1; i < 10; ++i) {
-		addEnemy(Character::EnemyZ, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyD, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyV, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyV2, (randNum(-150, 0)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyZ, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyD, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyV, (randNum(-150, +500)), (randNum(i * 250, i * 1000)));
-		addEnemy(Character::EnemyV2, (randNum(-150, 0)), (randNum(i * 250, i * 1000)));
-	}
-	// Sort all enemies according to their y value, such that lower enemies are checked first for spawning
-	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [](SpawnPoint lhs, SpawnPoint rhs) {
-		//std::cout << "All Enemies Sorted";
-		return lhs.y < rhs.y;
-	});
-}
 
 float World::randNum(float min, float max){
 	float r = (float)rand() / (float)RAND_MAX;
 	return min + r * (max - min);
-}
-
-void World::addEnemy(Character::Type type, float relX, float relY){
-	SpawnPoint spawn(type, mSpawnPosition.x + relX, mSpawnPosition.y - relY);
-	//std::cout << "Spawning Enemy..";
-	mEnemySpawnPoints.push_back(spawn);
-}
-
-
-void World::spawnEnemies(){
-	// Spawns enemy pokemon
-	while (!mEnemySpawnPoints.empty()
-		&& mEnemySpawnPoints.back().y > getEnemySpawnBounds().top)	{
-		SpawnPoint spawn = mEnemySpawnPoints.back();
-
-		std::unique_ptr<Character> enemy(new Character(spawn.type, mTextures));
-		enemy->setPosition(spawn.x, spawn.y);
-
-		mSceneLayers[Air]->attachChild(std::move(enemy));
-
-		// Enemy is spawned, remove from the list to spawn
-		mEnemySpawnPoints.pop_back();
-		std::cout << "new instance of enemy created\n";
-	}
-}
-
-sf::FloatRect World::getEnemySpawnBounds() const{
-	// Return view bounds + some area at top, where enemies spawn
-	sf::FloatRect bounds = getViewBounds();
-	bounds.top -= 50;
-	bounds.height += 50;
-
-	return bounds;
 }
 
 sf::FloatRect World::getViewBounds() const{
@@ -224,46 +191,4 @@ bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Categor
 	}
 }
 
-void World::handleCollisions()
-{
-	std::set<SceneNode::Pair> collisionPairs;
-	mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
 
-	FOREACH(SceneNode::Pair pair, collisionPairs){
-		if (matchesCategories(pair, Category::PlayerCharacter, Category::EnemyCharacter))		{
-			//set first to play, second to enemy
-			auto& player = static_cast<Character&>(*pair.first);
-			auto& enemy = static_cast<Character&>(*pair.second);
-			//kill enemy
-			player.dmg(enemy.getHP());
-			enemy.destroy();
-			std::cout << "You bumped into someone!" << std::endl << "Current HP: " << player.getHP() << std::endl;
-		}
-
-		//else if someone gets hit by a projectile
-		else if (matchesCategories(pair, Category::EnemyCharacter, Category::PlayerWeapon)
-			|| matchesCategories(pair, Category::PlayerCharacter, Category::EnemyWeapon))		{
-			//set types
-			auto& enemy = static_cast<Character&>(*pair.first);
-			auto& projectile = static_cast<Weapon&>(*pair.second);
-
-			// Apply projectile damage to character, destroy projectile
-			std::cout << "Projectile hit someone!"<< std::endl << "Enemy HP: " << enemy.getHP() << std::endl;;
-			enemy.dmg(projectile.getDamage());
-			projectile.destroy();
-		}
-	}
-}
-
-void World::destroyActorsOutsideView()
-{
-	Command command;
-	command.category = Category::Weapon | Category::EnemyCharacter;
-	command.action = derivedAction<Actor>([this] (Actor& a, sf::Time)
-	{
-		if (!getEnemySpawnBounds().intersects(a.getBoundingRect()))
-			a.destroy();
-	});
-
-	mCommandQueue.push(command);
-}

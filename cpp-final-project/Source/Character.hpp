@@ -12,13 +12,8 @@ class Character : public Actor
 	public:
 		enum Type {
 			Player,
-			EnemyZ,
-			EnemyD,
-			EnemyV,
-			EnemyV2,
+			Enemy,
 			TypeCount,
-
-			Enemy = EnemyZ | EnemyD | EnemyV | EnemyV2,
 		};
 
 

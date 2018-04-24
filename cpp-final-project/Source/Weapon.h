@@ -8,16 +8,8 @@ class Weapon : public Actor
 public:
 	enum Type	{
 		PlayerBullet,
-		EnemyBulletZ,
-		EnemyBulletD,
-		EnemyBulletV,
-		EnemyBulletV2,
-		PlayerBomb,
+		EnemyBullet,
 		TypeCount,
-
-		PlayerProjectile = PlayerBullet | PlayerBomb,
-		EnemyProjectile = EnemyBulletD | EnemyBulletZ | EnemyBulletV | EnemyBulletV2,
-
 	};
 
 	Weapon(Type type, const TextureHolder& textures);
