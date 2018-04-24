@@ -34,8 +34,9 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 		std::cout << "bullets created" << std::endl;
 	};
 }**/, mJumpCommand() {
+	std::cout << "Jumped" << std::endl;
 	mJumpCommand.action = [this](SceneNode& node, sf::Time) {
-		std::cout << "Jumped" << std::endl;
+	
 
 	};
 }
@@ -46,6 +47,8 @@ void Character::updateCurrent(sf::Time dt, CommandQueue& commands){
 	// Check if ball or bomb are fired
 	checkBulletLaunch(dt, commands);
 
+	//check if Jumped 
+	checkJumpRate(dt, commands);
 	// Update enemy movement pattern; apply velocity
 	updateMovementPattern(dt);
 	Actor::updateCurrent(dt, commands);
@@ -101,7 +104,7 @@ float Character::getMaxSpeed() const{
 //get jump interval
 void Character::jumpInterval() {
 	std::cout << "Jump interval called" << std::endl;
-	if (Table[mType].jumpInterval == sf::Time::Zero) {
+	if (Table[mType].jumpInterval != sf::Time::Zero) {
 		std::cout << "Jump rate is 0" << std::endl;
 		 mJumpRate = true;
 	}
@@ -109,7 +112,7 @@ void Character::jumpInterval() {
 
 //check if jumped
 void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
-	std::cout << "checking Jump rate.." << std::endl;
+	//std::cout << "checking Jump rate.." << std::endl;
 	if (!isAllied()) {
 		jumpInterval();
 	}

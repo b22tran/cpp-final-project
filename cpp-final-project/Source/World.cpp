@@ -15,7 +15,7 @@ World::World(sf::RenderWindow& window)
 , mTextures() 
 , mSceneGraph()
 , mSceneLayers()
-, mWorldBounds(0.f, 0.f, 900.0f, 550.f)
+, mWorldBounds(0.f, 0.f, 960.0f, 460.f)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 , mScrollSpeed(0.f)
 , mPlayerCharacter(nullptr)
@@ -74,7 +74,7 @@ void World::loadTextures()
 	mTextures.load(Textures::PlayerUp, "Media/Textures/CharacterUp.png");
 	mTextures.load(Textures::PlayerLeft, "Media/Textures/CharacterLeft.png");
 	mTextures.load(Textures::PlayerRight, "Media/Textures/CharacterRight.png");
-	mTextures.load(Textures::Background, "Media/Textures/Background.png");
+	mTextures.load(Textures::Background, "Media/Textures/Background-dl.jpg");
 	mTextures.load(Textures::Ball, "Media/Textures/Pokeball.png");
 	mTextures.load(Textures::EnemyZ, "Media/Textures/Zubat.png");
 	mTextures.load(Textures::EnemyD, "Media/Textures/Dragonite.png");
