@@ -14,7 +14,6 @@ class Player{
 			MoveUp,
 			MoveDown,
 			Shoot,
-			WeaponSwitch,
 			ActionCount
 		};
 

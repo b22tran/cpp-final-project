@@ -25,6 +25,7 @@ struct CharacterData{
 	Textures::ID texture;
 	sf::Time fireInterval;
 	std::vector<Direction> direction;
+	sf::Time jumpInterval;
 };
 
 //struct for all weapon data

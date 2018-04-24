@@ -12,6 +12,8 @@ std::vector<CharacterData> initializeCharacterData() {
 	data[Character::Player].hp = 100;
 	data[Character::Player].speed = 200.f;
 	data[Character::Player].texture = Textures::Player;
+	data[Character::Player].jumpInterval = sf::seconds(1);
+
 
 	data[Character::EnemyZ].hp = 20;
 	data[Character::EnemyZ].speed = 80.f;

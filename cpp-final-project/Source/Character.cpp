@@ -19,8 +19,11 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 , mDirectionIndex(0)
 , mFireCountdown(sf::Time::Zero)
 , mIsFiring(false)
+, mJumpRate(false)
+, mJumpCountdown(sf::Time::Zero)
+, mJumpRateLevel(1)
 , mFireRateLevel(1)
-, mFireCommand(){
+/**, mFireCommand(){
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
@@ -29,6 +32,11 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 	mFireCommand.action = [this, &textures](SceneNode& node, sf::Time){
 		createBullets(node, textures);
 		std::cout << "bullets created" << std::endl;
+	};
+}**/, mJumpCommand() {
+	mJumpCommand.action = [this](SceneNode& node, sf::Time) {
+		std::cout << "Jumped" << std::endl;
+
 	};
 }
 
@@ -87,6 +95,38 @@ float Character::toRadian(float degree){
 //get max speed
 float Character::getMaxSpeed() const{
 	return Table[mType].speed;
+}
+
+
+//get jump interval
+void Character::jumpInterval() {
+	std::cout << "Jump interval called" << std::endl;
+	if (Table[mType].jumpInterval == sf::Time::Zero) {
+		std::cout << "Jump rate is 0" << std::endl;
+		 mJumpRate = true;
+	}
+}
+
+//check if jumped
+void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
+	std::cout << "checking Jump rate.." << std::endl;
+	if (!isAllied()) {
+		jumpInterval();
+	}
+	// Check for automatic jump, allow only in intervals
+	if (mJumpRate && mJumpCountdown <= sf::Time::Zero) {
+		//jump if cooldown is down
+		//std::cout << "pushing mJumpCommand..\n";
+		commands.push(mJumpCommand);
+		mJumpCountdown += Table[mType].jumpInterval / (mJumpRateLevel + 1.f);
+		mJumpRate = false;
+	}
+	else if (mJumpCountdown > sf::Time::Zero) {
+		//std::cout << "mJumpcommand is > Zero....";
+		//decrease the countdown
+		mJumpCountdown -= dt;
+		mJumpRate = false;
+	}
 }
 
 //method to start shooting
