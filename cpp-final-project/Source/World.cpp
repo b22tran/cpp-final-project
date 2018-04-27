@@ -26,7 +26,6 @@ World::World(sf::RenderWindow& window)
 
 	// Prepare the view
 	//mWorldView.setCenter(mSpawnPosition);
-	//probably better way to get y pos.. but better than nothing :^)
 	mPlayerCharacter->setPosition(600.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 	mEnemyCharacter->setPosition(100.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
@@ -66,17 +65,9 @@ CommandQueue& World::getCommandQueue()
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::Player, "Media/Textures/CharacterDown.png");
-	mTextures.load(Textures::PlayerUp, "Media/Textures/CharacterUp.png");
-	mTextures.load(Textures::PlayerLeft, "Media/Textures/CharacterLeft.png");
-	mTextures.load(Textures::PlayerRight, "Media/Textures/CharacterRight.png");
-	mTextures.load(Textures::Enemy, "Media/Textures/Dragonite.png");
+	mTextures.load(Textures::Player, "Media/Textures/Char1.png");
+	mTextures.load(Textures::Enemy, "Media/Textures/Char2.png");
 	mTextures.load(Textures::Background, "Media/Textures/Background-dl.jpg");
-	mTextures.load(Textures::Ball, "Media/Textures/Pokeball.png");
-	mTextures.load(Textures::Bomb, "Media/Textures/Electrode.png");
-	mTextures.load(Textures::BulletZ, "Media/Textures/BulletZ.png");
-	mTextures.load(Textures::BulletD, "Media/Textures/BulletD.png");
-	mTextures.load(Textures::BulletV, "Media/Textures/Pokeball.png");
 }
 
 
@@ -85,13 +76,13 @@ void World::adaptPlayerPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds = getViewBounds();
-	const float borderDistance = 30.0f;
+	const float borderDistance = 50.0f;
 
 	sf::Vector2f position = mPlayerCharacter->getPosition();
-	position.x = std::max(position.x, viewBounds.left + borderDistance);
+	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance*2));
 	mPlayerCharacter->setPosition(position);
 }
 
@@ -99,13 +90,13 @@ void World::adaptEnemyPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds = getViewBounds();
-	const float borderDistance = 30.0f;
+	const float borderDistance = 50.0f;
 
 	sf::Vector2f position = mEnemyCharacter->getPosition();
-	position.x = std::max(position.x, viewBounds.left + borderDistance);
+	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
 	mEnemyCharacter->setPosition(position);
 }
 

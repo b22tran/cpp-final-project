@@ -1,4 +1,12 @@
 #include "Game.hpp"
+#include "Utility.hpp"
+#include "State.hpp"
+#include "StateIdentifiers.hpp"
+#include "TitleState.hpp"
+#include "GameState.hpp"
+#include "MenuState.hpp"
+#include "PauseState.hpp"
+#include "SettingState.hpp"
 #include "StringHelpers.hpp"
 
 
@@ -9,16 +17,26 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
 Game::Game() : mWindow(sf::VideoMode(960, 460), "Super Slash Bros!", sf::Style::Close)
 , mWorld(mWindow)
 , mPlayer()
-, mFont()
+, mFonts()
+, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0){
 	mWindow.setKeyRepeatEnabled(false);
 
-	mFont.loadFromFile("Media/kenny.ttf");
-	mStatisticsText.setFont(mFont);
+	mFonts.load(Fonts::Main, "Media/kenny.ttf");
+
+	mTextures.load(Textures::TitleScreen, "Media/Textures/Title.png");
+	mTextures.load(Textures::ButtonNormal, "Media/Textures/ButtonNormal.png");
+	mTextures.load(Textures::ButtonSelected, "Media/Textures/ButtonSelected.png");
+	mTextures.load(Textures::ButtonPressed, "Media/Textures/ButtonPressed.png");
+
+	mStatisticsText.setFont(mFonts.get(Fonts::Main));
 	mStatisticsText.setPosition(5.f, 5.f);
-	mStatisticsText.setCharacterSize(10);
+	mStatisticsText.setCharacterSize(10u);
+
+	registerStates();
+	mStateStack.pushState(States::Title);
 }
 
 void Game::run(){
@@ -27,11 +45,18 @@ void Game::run(){
 	while (mWindow.isOpen()){
 		sf::Time elapsedTime = clock.restart();
 		timeSinceLastUpdate += elapsedTime;
+
 		while (timeSinceLastUpdate > TimePerFrame){
+
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processInput();
 			update(TimePerFrame);
+
+			// Check inside this loop, because stack might be empty before update() call
+			if (mStateStack.isEmpty())
+				
+				mWindow.close();
 		}
 
 		updateStatistics(elapsedTime);
@@ -40,10 +65,12 @@ void Game::run(){
 }
 
 void Game::processInput(){
+
 	CommandQueue& commands = mWorld.getCommandQueue();
 
 	sf::Event event;
 	while (mWindow.pollEvent(event)){
+		mStateStack.handleEvent(event);
 		mPlayer.handleEvent(event, commands);
 
 		if (event.type == sf::Event::Closed)
@@ -54,12 +81,15 @@ void Game::processInput(){
 }
 
 void Game::update(sf::Time elapsedTime){
-	mWorld.update(elapsedTime);
+	mStateStack.update(elapsedTime);
+	//mWorld.update(elapsedTime);
 }
 
 void Game::render(){
-	mWindow.clear();	
-	mWorld.draw();
+	mWindow.clear();
+
+	mStateStack.draw();
+	//mWorld.draw();
 
 	mWindow.setView(mWindow.getDefaultView());
 //	mWindow.setView(view);
@@ -82,4 +112,11 @@ void Game::updateStatistics(sf::Time elapsedTime){
 }
 
 
-
+void Game::registerStates()
+{
+	mStateStack.registerState<TitleState>(States::Title);
+	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<PauseState>(States::Pause);
+	mStateStack.registerState<SettingsState>(States::Settings);
+}

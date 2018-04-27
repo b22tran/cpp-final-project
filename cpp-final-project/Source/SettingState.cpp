@@ -13,11 +13,11 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	mBackgroundSprite.setTexture(context.textures->get(Textures::TitleScreen));
 
 	// Build key binding buttons and labels
-	addButtonLabel(Player::MoveLeft, 150.f, "Move Left", context);
-	addButtonLabel(Player::MoveRight, 200.f, "Move Right", context);
-	addButtonLabel(Player::MoveUp, 250.f, "Jump", context);
-	addButtonLabel(Player::MoveDown, 300.f, "Block", context);
-	addButtonLabel(Player::Attack, 350.f, "Attack", context);
+	addButtonLabel(Player::MoveLeft, 100.f, "Move Left", context);
+	addButtonLabel(Player::MoveRight, 150.f, "Move Right", context);
+	addButtonLabel(Player::MoveUp, 200.f, "Jump", context);
+	addButtonLabel(Player::MoveDown, 250.f, "Block", context);
+	addButtonLabel(Player::Attack, 300.f, "Attack", context);
 
 	updateLabels();
 
@@ -89,7 +89,7 @@ void SettingsState::addButtonLabel(Player::Action action, float y, const std::st
 	mBindingButtons[action]->setToggle(true);
 
 	mBindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-	mBindingLabels[action]->setPosition(300.f, y + 15.f);
+	mBindingLabels[action]->setPosition(350.f, y + 15.f);
 
 	mGUIContainer.pack(mBindingButtons[action]);
 	mGUIContainer.pack(mBindingLabels[action]);
