@@ -13,7 +13,7 @@ public:
 		MoveRight,
 		MoveUp,
 		MoveDown,
-		Shoot,
+		Attack,
 		ActionCount
 	};
 

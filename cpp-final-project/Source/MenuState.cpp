@@ -11,7 +11,7 @@ MenuState::MenuState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mGUIContainer()
 {
-	sf::Texture& texture = context.textures->get(Textures::TitleScreen);
+	sf::Texture& texture = context.textures->get(Textures::Background);
 	mBackgroundSprite.setTexture(texture);
 
 	auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);

@@ -26,7 +26,7 @@ Player::Player(){
 	mKeyBinding[sf::Keyboard::Down] = MoveDown;
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
-	mKeyBinding[sf::Keyboard::RShift] = Shoot;
+	mKeyBinding[sf::Keyboard::RShift] = Attack;
 
 	// Set initial action bindings
 	initializeActions();	
@@ -79,19 +79,19 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const{
 void Player::initializeActions(){
 	const float playerSpeed = 250.f;
 
-	mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
-		c.jumpInterval();
-	});
+	//mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
+	//	c.jumpInterval();
+	//});
 
 	//mActionBinding[MoveUp].action = (derivedAction<Character>(CharacterMover(0.f, -playerSpeed * 8)), derivedAction<Character>([](Character& c, sf::Time) {
 	//	std::cout << "Jump Lambda called" << std::endl;
 	//	c.jumpInterval(); }));
 
-	//mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed*8));
+	mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed*8));
 	//mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
 	mActionBinding[MoveLeft].action	 = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
-	mActionBinding[Shoot].action = derivedAction<Character>([](Character& c, sf::Time) {
+	mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
 		c.shoot();
 	});
 }
@@ -102,7 +102,7 @@ bool Player::isRealtimeAction(Action action){
 		case MoveRight:
 		case MoveDown:
 		case MoveUp:
-		case Shoot:
+		case Attack:
 			return true;
 
 		default:

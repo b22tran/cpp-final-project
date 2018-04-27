@@ -1,121 +1,132 @@
-#include "World.hpp"
+#include "Utility.hpp"
 
-#include "SFML/Graphics/RenderWindow.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 
-#include <algorithm>
 #include <cmath>
 
 
-World::World(sf::RenderWindow& window)
-	: mWindow(window)
-	, mWorldView(window.getDefaultView())
-	, mTextures()
-	, mSceneGraph()
-	, mSceneLayers()
-	, mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
-	, mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
-	, mScrollSpeed(-50.f)
-	, mPlayerCharacter(nullptr)
+std::string toString(sf::Keyboard::Key key)
 {
-	loadTextures();
-	buildScene();
+#define BOOK_KEYTOSTRING_CASE(KEY) case sf::Keyboard::KEY: return #KEY;
 
-	// Prepare the view
-	mWorldView.setCenter(mSpawnPosition);
-}
-
-void World::update(sf::Time dt)
-{
-	// Scroll the world, reset player velocity
-	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
-	mPlayerCharacter->setVelocity(0.f, 0.f);
-
-	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
-	while (!mCommandQueue.isEmpty())
-		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
-	adaptPlayerVelocity();
-
-	// Regular update step, adapt position (correct if outside view)
-	mSceneGraph.update(dt);
-	adaptPlayerPosition();
-}
-
-void World::draw()
-{
-	mWindow.setView(mWorldView);
-	mWindow.draw(mSceneGraph);
-}
-
-CommandQueue& World::getCommandQueue()
-{
-	return mCommandQueue;
-}
-
-void World::loadTextures()
-{
-	mTextures.load(Textures::Player, "Media/Textures/CharacterDown.png");
-	mTextures.load(Textures::PlayerUp, "Media/Textures/CharacterUp.png");
-	mTextures.load(Textures::PlayerLeft, "Media/Textures/CharacterLeft.png");
-	mTextures.load(Textures::PlayerRight, "Media/Textures/CharacterRight.png");
-	mTextures.load(Textures::Enemy, "Media/Textures/Dragonite.png");
-	mTextures.load(Textures::Background, "Media/Textures/Background-dl.jpg");
-	mTextures.load(Textures::Ball, "Media/Textures/Pokeball.png");
-	mTextures.load(Textures::Bomb, "Media/Textures/Electrode.png");
-	mTextures.load(Textures::BulletZ, "Media/Textures/BulletZ.png");
-	mTextures.load(Textures::BulletD, "Media/Textures/BulletD.png");
-	mTextures.load(Textures::BulletV, "Media/Textures/Pokeball.png");
-}
-
-void World::buildScene()
-{
-	// Initialize the different layers
-	for (std::size_t i = 0; i < LayerCount; ++i)
+	switch (key)
 	{
-		SceneNode::Ptr layer(new SceneNode());
-		mSceneLayers[i] = layer.get();
-
-		mSceneGraph.attachChild(std::move(layer));
+		BOOK_KEYTOSTRING_CASE(Unknown)
+			BOOK_KEYTOSTRING_CASE(A)
+			BOOK_KEYTOSTRING_CASE(B)
+			BOOK_KEYTOSTRING_CASE(C)
+			BOOK_KEYTOSTRING_CASE(D)
+			BOOK_KEYTOSTRING_CASE(E)
+			BOOK_KEYTOSTRING_CASE(F)
+			BOOK_KEYTOSTRING_CASE(G)
+			BOOK_KEYTOSTRING_CASE(H)
+			BOOK_KEYTOSTRING_CASE(I)
+			BOOK_KEYTOSTRING_CASE(J)
+			BOOK_KEYTOSTRING_CASE(K)
+			BOOK_KEYTOSTRING_CASE(L)
+			BOOK_KEYTOSTRING_CASE(M)
+			BOOK_KEYTOSTRING_CASE(N)
+			BOOK_KEYTOSTRING_CASE(O)
+			BOOK_KEYTOSTRING_CASE(P)
+			BOOK_KEYTOSTRING_CASE(Q)
+			BOOK_KEYTOSTRING_CASE(R)
+			BOOK_KEYTOSTRING_CASE(S)
+			BOOK_KEYTOSTRING_CASE(T)
+			BOOK_KEYTOSTRING_CASE(U)
+			BOOK_KEYTOSTRING_CASE(V)
+			BOOK_KEYTOSTRING_CASE(W)
+			BOOK_KEYTOSTRING_CASE(X)
+			BOOK_KEYTOSTRING_CASE(Y)
+			BOOK_KEYTOSTRING_CASE(Z)
+			BOOK_KEYTOSTRING_CASE(Num0)
+			BOOK_KEYTOSTRING_CASE(Num1)
+			BOOK_KEYTOSTRING_CASE(Num2)
+			BOOK_KEYTOSTRING_CASE(Num3)
+			BOOK_KEYTOSTRING_CASE(Num4)
+			BOOK_KEYTOSTRING_CASE(Num5)
+			BOOK_KEYTOSTRING_CASE(Num6)
+			BOOK_KEYTOSTRING_CASE(Num7)
+			BOOK_KEYTOSTRING_CASE(Num8)
+			BOOK_KEYTOSTRING_CASE(Num9)
+			BOOK_KEYTOSTRING_CASE(Escape)
+			BOOK_KEYTOSTRING_CASE(LControl)
+			BOOK_KEYTOSTRING_CASE(LShift)
+			BOOK_KEYTOSTRING_CASE(LAlt)
+			BOOK_KEYTOSTRING_CASE(LSystem)
+			BOOK_KEYTOSTRING_CASE(RControl)
+			BOOK_KEYTOSTRING_CASE(RShift)
+			BOOK_KEYTOSTRING_CASE(RAlt)
+			BOOK_KEYTOSTRING_CASE(RSystem)
+			BOOK_KEYTOSTRING_CASE(Menu)
+			BOOK_KEYTOSTRING_CASE(LBracket)
+			BOOK_KEYTOSTRING_CASE(RBracket)
+			BOOK_KEYTOSTRING_CASE(SemiColon)
+			BOOK_KEYTOSTRING_CASE(Comma)
+			BOOK_KEYTOSTRING_CASE(Period)
+			BOOK_KEYTOSTRING_CASE(Quote)
+			BOOK_KEYTOSTRING_CASE(Slash)
+			BOOK_KEYTOSTRING_CASE(BackSlash)
+			BOOK_KEYTOSTRING_CASE(Tilde)
+			BOOK_KEYTOSTRING_CASE(Equal)
+			BOOK_KEYTOSTRING_CASE(Dash)
+			BOOK_KEYTOSTRING_CASE(Space)
+			BOOK_KEYTOSTRING_CASE(Return)
+			BOOK_KEYTOSTRING_CASE(BackSpace)
+			BOOK_KEYTOSTRING_CASE(Tab)
+			BOOK_KEYTOSTRING_CASE(PageUp)
+			BOOK_KEYTOSTRING_CASE(PageDown)
+			BOOK_KEYTOSTRING_CASE(End)
+			BOOK_KEYTOSTRING_CASE(Home)
+			BOOK_KEYTOSTRING_CASE(Insert)
+			BOOK_KEYTOSTRING_CASE(Delete)
+			BOOK_KEYTOSTRING_CASE(Add)
+			BOOK_KEYTOSTRING_CASE(Subtract)
+			BOOK_KEYTOSTRING_CASE(Multiply)
+			BOOK_KEYTOSTRING_CASE(Divide)
+			BOOK_KEYTOSTRING_CASE(Left)
+			BOOK_KEYTOSTRING_CASE(Right)
+			BOOK_KEYTOSTRING_CASE(Up)
+			BOOK_KEYTOSTRING_CASE(Down)
+			BOOK_KEYTOSTRING_CASE(Numpad0)
+			BOOK_KEYTOSTRING_CASE(Numpad1)
+			BOOK_KEYTOSTRING_CASE(Numpad2)
+			BOOK_KEYTOSTRING_CASE(Numpad3)
+			BOOK_KEYTOSTRING_CASE(Numpad4)
+			BOOK_KEYTOSTRING_CASE(Numpad5)
+			BOOK_KEYTOSTRING_CASE(Numpad6)
+			BOOK_KEYTOSTRING_CASE(Numpad7)
+			BOOK_KEYTOSTRING_CASE(Numpad8)
+			BOOK_KEYTOSTRING_CASE(Numpad9)
+			BOOK_KEYTOSTRING_CASE(F1)
+			BOOK_KEYTOSTRING_CASE(F2)
+			BOOK_KEYTOSTRING_CASE(F3)
+			BOOK_KEYTOSTRING_CASE(F4)
+			BOOK_KEYTOSTRING_CASE(F5)
+			BOOK_KEYTOSTRING_CASE(F6)
+			BOOK_KEYTOSTRING_CASE(F7)
+			BOOK_KEYTOSTRING_CASE(F8)
+			BOOK_KEYTOSTRING_CASE(F9)
+			BOOK_KEYTOSTRING_CASE(F10)
+			BOOK_KEYTOSTRING_CASE(F11)
+			BOOK_KEYTOSTRING_CASE(F12)
+			BOOK_KEYTOSTRING_CASE(F13)
+			BOOK_KEYTOSTRING_CASE(F14)
+			BOOK_KEYTOSTRING_CASE(F15)
+			BOOK_KEYTOSTRING_CASE(Pause)
 	}
 
-	// Prepare the tiled background
-	sf::Texture& texture = mTextures.get(Textures::Background);
-	sf::IntRect textureRect(mWorldBounds);
-	texture.setRepeated(true);
-
-	// Add the background sprite to the scene
-	std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
-	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-	mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
-
-	// Add player's Character
-	std::unique_ptr<Character> leader(new Character(Character::Player, mTextures));
-	mPlayerCharacter = leader.get();
-	mPlayerCharacter->setPosition(mSpawnPosition);
-	mSceneLayers[Air]->attachChild(std::move(leader));
+	return "";
 }
 
-void World::adaptPlayerPosition()
+void centerOrigin(sf::Sprite& sprite)
 {
-	// Keep player's position inside the screen bounds, at least borderDistance units from the border
-	sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-	const float borderDistance = 40.f;
-
-	sf::Vector2f position = mPlayerCharacter->getPosition();
-	position.x = std::max(position.x, viewBounds.left + borderDistance);
-	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
-	mPlayerCharacter->setPosition(position);
+	sf::FloatRect bounds = sprite.getLocalBounds();
+	sprite.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-void World::adaptPlayerVelocity()
+void centerOrigin(sf::Text& text)
 {
-	sf::Vector2f velocity = mPlayerCharacter->getVelocity();
-
-	// If moving diagonally, reduce velocity (to have always same velocity)
-	if (velocity.x != 0.f && velocity.y != 0.f)
-		mPlayerCharacter->setVelocity(velocity / std::sqrt(2.f));
-
-	// Add scrolling velocity
-	mPlayerCharacter->accelerate(0.f, mScrollSpeed);
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }

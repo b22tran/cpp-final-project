@@ -112,42 +112,66 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="source\Character.cpp" />
     <ClCompile Include="source\Command.cpp" />
     <ClCompile Include="source\CommandQueue.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Container.cpp" />
     <ClCompile Include="Source\DataTables.cpp" />
     <ClCompile Include="source\Actor.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\Label.cpp" />
     <ClCompile Include="source\Main.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
+    <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\SceneNode.cpp" />
+    <ClCompile Include="Source\SettingState.cpp" />
     <ClCompile Include="source\SpriteNode.cpp" />
+    <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateStack.cpp" />
+    <ClCompile Include="Source\TitleState.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
     <ClCompile Include="Source\Weapon.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\ResourceHolder.inl" />
     <None Include="source\StringHelpers.inl" />
+    <None Include="Source\Utility.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Platform.h" />
+    <ClInclude Include="Source\Button.hpp" />
     <ClInclude Include="source\Character.hpp" />
     <ClInclude Include="source\Category.hpp" />
     <ClInclude Include="source\Command.hpp" />
     <ClInclude Include="source\CommandQueue.hpp" />
+    <ClInclude Include="Source\Component.hpp" />
+    <ClInclude Include="Source\Container.hpp" />
     <ClInclude Include="Source\DataTables.h" />
     <ClInclude Include="source\Actor.hpp" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="source\Foreach.hpp" />
     <ClInclude Include="source\Game.hpp" />
+    <ClInclude Include="Source\GameState.hpp" />
+    <ClInclude Include="Source\Label.hpp" />
+    <ClInclude Include="Source\MenuState.hpp" />
+    <ClInclude Include="Source\PauseState.hpp" />
     <ClInclude Include="source\Player.hpp" />
     <ClInclude Include="source\ResourceHolder.hpp" />
     <ClInclude Include="source\ResourceIdentifiers.hpp" />
     <ClInclude Include="source\SceneNode.hpp" />
+    <ClInclude Include="Source\SettingState.hpp" />
     <ClInclude Include="source\SpriteNode.hpp" />
+    <ClInclude Include="Source\State.hpp" />
+    <ClInclude Include="Source\StateIdentifiers.hpp" />
+    <ClInclude Include="Source\StateStack.hpp" />
     <ClInclude Include="source\StringHelpers.hpp" />
+    <ClInclude Include="Source\TitleState.hpp" />
+    <ClInclude Include="Source\Utility.hpp" />
     <ClInclude Include="Source\Weapon.h" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>

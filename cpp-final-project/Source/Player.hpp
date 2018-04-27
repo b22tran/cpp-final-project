@@ -13,7 +13,7 @@ class Player{
 			MoveRight,
 			MoveUp,
 			MoveDown,
-			Shoot,
+			Attack,
 			ActionCount
 		};
 

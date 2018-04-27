@@ -26,7 +26,7 @@ Enemy::Enemy() {
 	mKeyBinding[sf::Keyboard::S] = MoveDown;
 	mKeyBinding[sf::Keyboard::A] = MoveLeft;
 	mKeyBinding[sf::Keyboard::D] = MoveRight;
-	mKeyBinding[sf::Keyboard::LShift] = Shoot;
+	mKeyBinding[sf::Keyboard::LShift] = Attack;
 
 	// Set initial action bindings
 	initializeActions();
@@ -92,7 +92,7 @@ void Enemy::initializeActions() {
 	//mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
 	mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
-	mActionBinding[Shoot].action = derivedAction<Character>([](Character& c, sf::Time) {
+	mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
 		c.shoot();
 	});
 }
@@ -103,7 +103,7 @@ bool Enemy::isRealtimeAction(Action action) {
 	case MoveRight:
 	case MoveDown:
 	case MoveUp:
-	case Shoot:
+	case Attack:
 		return true;
 
 	default:
