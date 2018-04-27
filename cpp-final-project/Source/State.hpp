@@ -54,4 +54,3 @@ private:
 	StateStack * mStack;
 	Context				mContext;
 };
-
