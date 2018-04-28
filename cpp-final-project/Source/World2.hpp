@@ -33,8 +33,10 @@ private:
 	void adaptPlayerVelocity();
 	void adaptEnemyPosition();
 	void adaptEnemyVelocity();
+	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
 
 	sf::FloatRect getViewBounds() const;
+	void handleCollisions();
 
 	enum Layer {
 		Background,
