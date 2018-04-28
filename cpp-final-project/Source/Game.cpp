@@ -27,7 +27,7 @@ Game::Game() : mWindow(sf::VideoMode(960, 460), "Super Slash Bros!", sf::Style::
 
 	mFonts.load(Fonts::Main, "Media/kenny.ttf");
 
-	mTextures.load(Textures::TitleScreen, "Media/Textures/Title.png");
+	mTextures.load(Textures::TitleScreen, "Media/Textures/Title.jpg");
 	mTextures.load(Textures::ButtonNormal, "Media/Textures/ButtonNormal.png");
 	mTextures.load(Textures::ButtonSelected, "Media/Textures/ButtonSelected.png");
 	mTextures.load(Textures::ButtonPressed, "Media/Textures/ButtonPressed.png");

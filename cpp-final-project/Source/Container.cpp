@@ -4,6 +4,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <iostream>
 
 
 namespace GUI
@@ -35,6 +36,7 @@ namespace GUI
 		{
 			mChildren[mSelectedChild]->handleEvent(event);
 		}
+
 		else if (event.type == sf::Event::KeyReleased)
 		{
 			if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
@@ -50,6 +52,12 @@ namespace GUI
 				if (hasSelection())
 					mChildren[mSelectedChild]->activate();
 			}
+		}
+
+		else if (event.type == sf::Event::MouseButtonReleased) {
+			sf::Vector2i position = sf::Mouse::getPosition();
+			if (hasSelection())
+				mChildren[mSelectedChild]->activate();
 		}
 	}
 
