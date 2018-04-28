@@ -237,7 +237,7 @@ void World::handleCollisions()
 void World::destroyEntitiesOutsideView()
 {
 	Command command;
-	command.category = Category::PlayerBullet | Category::EnemyBullet;
+	command.category = Category::Projectile | Category::Character;
 	command.action = derivedAction<Actor>([this](Actor& e, sf::Time)
 	{
 		if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
