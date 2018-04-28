@@ -68,12 +68,23 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
+bool World::charDead() const {
+	int p1 = mPlayerCharacter->getHP();
+	int p2 = mEnemyCharacter->getHP();
+	if (p1<=0)
+		return true;
+	else if (p2<=0)
+		return true;
+	else
+		return false;
+}
+
 void World::loadTextures()
 {
 	mTextures.load(Textures::Player, "Media/Textures/Char1.png");
 	mTextures.load(Textures::Enemy, "Media/Textures/Char2.png");
 	mTextures.load(Textures::Background, "Media/Textures/Background-dl.jpg");
-	mTextures.load(Textures::Ball, "Media/Textures/Char1Attack.png");
+	mTextures.load(Textures::Ball, "Media/Textures/BulletD.png");
 }
 
 

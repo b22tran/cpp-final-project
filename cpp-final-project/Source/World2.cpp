@@ -74,7 +74,7 @@ void World2::loadTextures()
 	mTextures.load(Textures::Player, "Media/Textures/Char1.png");
 	mTextures.load(Textures::Enemy, "Media/Textures/Char2.png");
 	mTextures.load(Textures::Background, "Media/Textures/Background-2.png");
-	mTextures.load(Textures::Ball, "Media/Textures/Char1Attack.png");
+	mTextures.load(Textures::Ball, "Media/Textures/BulletD.png");
 }
 
 

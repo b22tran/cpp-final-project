@@ -33,7 +33,8 @@ struct CharacterJumper {
 
 	sf::Vector2f velocity;
 };
-Player::Player(){
+Player::Player()
+	: mCurrentGameStatus(GameRunning){
 	// Set initial key bindings
 		mKeyBinding[sf::Keyboard::Up] = MoveUp;
 		mKeyBinding[sf::Keyboard::Down] = MoveDown;
@@ -81,6 +82,16 @@ void Player::assignKey(Action action, sf::Keyboard::Key key){
 		mKeyBinding[key] = action;
 }
 
+void Player::setGameStatus(GameStatus status)
+{
+	mCurrentGameStatus = status;
+}
+
+Player::GameStatus Player::getGameStatus() const
+{
+	return mCurrentGameStatus;
+}
+
 sf::Keyboard::Key Player::getAssignedKey(Action action) const{
 		FOREACH(auto pair, mKeyBinding) {
 			if (pair.second == action)
@@ -116,3 +127,4 @@ bool Player::isRealtimeAction(Action action){
 			return false;
 	}
 }
+

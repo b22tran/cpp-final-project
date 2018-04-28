@@ -17,6 +17,11 @@ bool GameState::update(sf::Time dt)
 {
 	mWorld.update(dt);
 
+	if (mWorld.charDead()) {
+		mPlayer.setGameStatus(Player::GameOver);
+		requestStackPush(States::GameOver);
+	}
+
 	CommandQueue& commands = mWorld.getCommandQueue();
 	mPlayer.handleRealtimeInput(commands);
 	mEnemy.handleRealtimeInput(commands);

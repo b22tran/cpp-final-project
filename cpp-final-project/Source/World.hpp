@@ -22,6 +22,7 @@ class World : private sf::NonCopyable{
 		void update(sf::Time dt);
 		void draw();
 		float randNum(float min, float max);
+		bool charDead() const;
 		
 		CommandQueue& getCommandQueue();
 

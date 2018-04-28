@@ -122,6 +122,7 @@
     <ClCompile Include="source\Actor.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="Source\GameOverState.cpp" />
     <ClCompile Include="Source\GameState2.cpp" />
     <ClCompile Include="Source\World2.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="source\Foreach.hpp" />
     <ClInclude Include="source\Game.hpp" />
+    <ClInclude Include="Source\GameOverState.hpp" />
     <ClInclude Include="Source\GameState2.hpp" />
     <ClInclude Include="Source\World2.hpp" />
     <ClInclude Include="Source\GameState.hpp" />

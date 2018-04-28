@@ -1,5 +1,4 @@
-#ifndef BOOK_STATEIDENTIFIERS_HPP
-#define BOOK_STATEIDENTIFIERS_HPP
+#pragma once
 
 
 namespace States
@@ -13,8 +12,8 @@ namespace States
 		Game2,
 		Loading,
 		Pause,
-		Settings
+		Settings,
+		GameOver,
 	};
 }
 
-#endif // BOOK_STATEIDENTIFIERS_HPP

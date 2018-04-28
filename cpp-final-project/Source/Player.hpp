@@ -17,6 +17,13 @@ class Player{
 			ActionCount
 		};
 
+
+		enum GameStatus
+		{
+			GameRunning,
+			GameOver
+		};
+
 	public:
 		Player();
 		void handleEvent(const sf::Event& event, CommandQueue& commands);
@@ -26,6 +33,8 @@ class Player{
 		sf::Keyboard::Key getAssignedKey(Action action) const;
 		std::map<Action, Command>				mActionBinding;
 
+		void 					setGameStatus(GameStatus status);
+		GameStatus 			getGameStatus() const;
 
 	private:
 		void initializeActions();
@@ -34,5 +43,5 @@ class Player{
 		bool canJump;
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding2;
-
+		GameStatus 							mCurrentGameStatus;
 };
