@@ -23,7 +23,7 @@ public:
 	void draw();
 	float randNum(float min, float max);
 	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
-
+	bool charDead() const;
 	CommandQueue& getCommandQueue();
 
 

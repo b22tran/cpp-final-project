@@ -1,5 +1,4 @@
-#ifndef BOOK_GAMESTATE2_HPP
-#define BOOK_GAMESTATE2_HPP
+#pragma once
 
 #include "State.hpp"
 #include "World2.hpp"
@@ -25,5 +24,3 @@ private:
 	Player&				mPlayer;
 	Enemy&			mEnemy;
 };
-
-#endif // BOOK_GAMESTATE2_HPP

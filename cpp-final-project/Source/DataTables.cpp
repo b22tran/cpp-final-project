@@ -13,13 +13,13 @@ std::vector<CharacterData> initializeCharacterData(){
 	//typecount is is the last in the enum..
 	std::vector<CharacterData> data(Character::TypeCount);
 
-	data[Character::Player].hp = 10;
+	data[Character::Player].hp = 200;
 	data[Character::Player].speed = 400.f;
 	data[Character::Player].jumpInterval = sf::seconds(2);
 	data[Character::Player].fireInterval = sf::seconds(2);
 	data[Character::Player].texture = Textures::Player;
 
-	data[Character::Enemy].hp = 10;
+	data[Character::Enemy].hp = 200;
 	data[Character::Enemy].speed = 400.f;
 	data[Character::Enemy].jumpInterval = sf::seconds(2);
 	data[Character::Enemy].fireInterval = sf::seconds(2);

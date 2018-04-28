@@ -69,6 +69,17 @@ CommandQueue& World2::getCommandQueue()
 	return mCommandQueue;
 }
 
+bool World2::charDead() const {
+	int p1 = mPlayerCharacter->getHP();
+	int p2 = mEnemyCharacter->getHP();
+	if (p1 <= 0)
+		return true;
+	else if (p2 <= 0)
+		return true;
+	else
+		return false;
+}
+
 void World2::loadTextures()
 {
 	mTextures.load(Textures::Player, "Media/Textures/Char1.png");
