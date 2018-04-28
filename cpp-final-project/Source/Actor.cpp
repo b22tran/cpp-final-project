@@ -51,3 +51,8 @@ void Actor::destroy()
 {
 	mHP = 0;
 }
+
+void Actor::remove()
+{
+	destroy();
+}

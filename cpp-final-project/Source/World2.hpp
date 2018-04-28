@@ -36,7 +36,9 @@ private:
 	void adaptEnemyVelocity();
 	void handleCollisions();
 
+	void destroyEntitiesOutsideView();
 	sf::FloatRect getViewBounds() const;
+	sf::FloatRect getBattlefieldBounds() const;
 
 	enum Layer {
 		Background,

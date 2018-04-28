@@ -41,6 +41,7 @@ void World2::update(sf::Time dt)
 
 	//handle collisions
 	handleCollisions();
+	destroyEntitiesOutsideView();
 
 	// Remove all destroyed entities, create new ones
 	mSceneGraph.removeWrecks();
@@ -226,3 +227,25 @@ void World2::handleCollisions()
 }
 
 
+void World2::destroyEntitiesOutsideView()
+{
+	Command command;
+	command.category = Category::PlayerBullet | Category::EnemyBullet;
+	command.action = derivedAction<Actor>([this](Actor& e, sf::Time)
+	{
+		if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
+			e.remove();
+	});
+
+	mCommandQueue.push(command);
+}
+
+sf::FloatRect World2::getBattlefieldBounds() const
+{
+	// Return view bounds + some area at top, where enemies spawn
+	sf::FloatRect bounds = getViewBounds();
+	bounds.top -= 100.f;
+	bounds.height += 100.f;
+
+	return bounds;
+}

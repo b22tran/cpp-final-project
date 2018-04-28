@@ -36,7 +36,9 @@ class World : private sf::NonCopyable{
 		void adaptEnemyVelocity();
 	
 		sf::FloatRect getViewBounds() const;
+		void destroyEntitiesOutsideView();
 		void handleCollisions();
+		sf::FloatRect getBattlefieldBounds() const;
 	
 		enum Layer{
 			Background,

@@ -191,8 +191,9 @@ void Character::createProjectile(SceneNode& node, Weapon::Type type, float xOffs
 	//set the bullet where the player is..
 	sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width, yOffset * mSprite.getGlobalBounds().height);
 	//velocity of the projectile is max speed..
-	sf::Vector2f velocity(0, projectile->getMaxSpeed());
+	sf::Vector2f velocity(100, 1);
 	float sign = isAllied() ? -1.f : +1.f;
+	projectile->setVelocity(velocity * sign);
 	projectile->setPosition(getWorldPosition() + offset * sign);
 
 	//move the bullet

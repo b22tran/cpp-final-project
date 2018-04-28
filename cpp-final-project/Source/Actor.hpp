@@ -15,6 +15,8 @@ class Actor : public SceneNode{
 		void destroy();
 		int getHP() const;
 		bool isDestroyed() const;
+		virtual void		remove();
+
 
 		sf::Vector2f getVelocity() const;
 
