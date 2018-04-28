@@ -240,8 +240,10 @@ void World::destroyEntitiesOutsideView()
 	command.category = Category::Projectile | Category::Character;
 	command.action = derivedAction<Actor>([this](Actor& e, sf::Time)
 	{
-		if (!getBattlefieldBounds().intersects(e.getBoundingRect()))
+		if (!getBattlefieldBounds().intersects(e.getBoundingRect())) {
+			e.destroy();
 			e.remove();
+		}
 	});
 
 	mCommandQueue.push(command);
