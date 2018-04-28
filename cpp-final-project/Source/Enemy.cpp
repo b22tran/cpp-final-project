@@ -80,19 +80,9 @@ void Enemy::initializeActions() {
 	const float playerSpeed = 250.f;
 
 	mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed * 5));
-
-	//mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
-	//	c.jumpInterval();
-	//});
-
-	//mActionBinding[MoveUp].action = (derivedAction<Character>(CharacterMover(0.f, -playerSpeed * 8)), derivedAction<Character>([](Character& c, sf::Time) {
-	//	std::cout << "Jump Lambda called" << std::endl;
-	//	c.jumpInterval(); }));
-
 	mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
 	mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
-		std::cout << "shoot is pressed" << std::endl;
 		c.shoot();
 	});
 }

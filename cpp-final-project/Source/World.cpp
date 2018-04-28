@@ -6,8 +6,6 @@
 #include <cmath>
 #include <limits>
 
-//creating view
-//sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(400.0f, 400.0f));
 
 World::World(sf::RenderWindow& window)
 : mWindow(window)
@@ -25,16 +23,13 @@ World::World(sf::RenderWindow& window)
 	buildScene();
 
 	// Prepare the view
-	//mWorldView.setCenter(mSpawnPosition);
 	mPlayerCharacter->setPosition(600.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 	mEnemyCharacter->setPosition(300.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
 
 void World::update(sf::Time dt)
 {
-	// Scroll the world, reset player velocity
-	//mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
-	//mWorldView.setCenter(mWorldView.getSize().x / 2.f, mWorldView.getSize().y / 2.f);
+
 	mPlayerCharacter->setVelocity(0.f, 150.f);
 	mEnemyCharacter->setVelocity(0.f, 150.f);
 
@@ -221,9 +216,7 @@ void World::handleCollisions()
 			//set first to play, second to enemy
 			auto& player = static_cast<Character&>(*pair.first);
 			auto& enemy = static_cast<Character&>(*pair.second);
-			//player.dmg(enemy.getHP());
-			//enemy.destroy();
-			std::cout << "You bumped into someone!" << std::endl << "Current HP: " << player.getHP() << std::endl;
+			//std::cout << "You bumped into someone!" << std::endl << "Current HP: " << player.getHP() << std::endl;
 		}
 
 		//else if someone gets hit by a projectile

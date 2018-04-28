@@ -54,7 +54,6 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands) {
 		// Check if pressed key appears in key binding, trigger command if so
 		auto found = mKeyBinding.find(event.key.code);
 		if (found != mKeyBinding.end() && !isRealtimeAction(found->second)) {
-			//std::cout << "p1 cmd push" << std::endl;
 			commands.push(mActionBinding[found->second]);
 		}
 	}
@@ -64,7 +63,6 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands) {
 		FOREACH(auto pair, mKeyBinding) {
 			// If key is pressed, lookup action and trigger corresponding command
 			if (sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second)) {
-				//std::cout << "p1 cmd push rt" << std::endl;
 				commands.push(mActionBinding[pair.second]);
 			}
 		}
@@ -108,7 +106,6 @@ void Player::initializeActions(){
 		mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
 		mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
 		mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
-			std::cout << "shoot button pressed" << std::endl;
 			c.shoot();
 		});
 	

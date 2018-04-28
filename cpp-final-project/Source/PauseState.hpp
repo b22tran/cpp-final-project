@@ -1,5 +1,4 @@
-#ifndef BOOK_PAUSESTATE_HPP
-#define BOOK_PAUSESTATE_HPP
+#pragma once
 
 #include "State.hpp"
 #include "Container.hpp"
@@ -23,5 +22,3 @@ class PauseState : public State
 		sf::Text			mPausedText;
 		GUI::Container 		mGUIContainer;
 };
-
-#endif // BOOK_PAUSESTATE_HPP

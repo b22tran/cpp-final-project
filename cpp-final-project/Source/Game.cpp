@@ -13,8 +13,6 @@
 
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
-//creating view
-//sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(400.0f, 400.0f));
 
 Game::Game() : mWindow(sf::VideoMode(960, 460), "Super Slash Bros!", sf::Style::Close)
 , mWorld(mWindow)
@@ -85,17 +83,14 @@ void Game::processInput(){
 
 void Game::update(sf::Time elapsedTime){
 	mStateStack.update(elapsedTime);
-	//mWorld.update(elapsedTime);
 }
 
 void Game::render(){
 	mWindow.clear();
 
 	mStateStack.draw();
-	//mWorld.draw();
 
 	mWindow.setView(mWindow.getDefaultView());
-//	mWindow.setView(view);
 	mWindow.draw(mStatisticsText);
 	mWindow.display();
 }

@@ -45,7 +45,7 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 	mFireCommand.category = Category::Scene;
 	mFireCommand.action = [this, &textures](SceneNode& node, sf::Time){
 		createBullets(node, textures);
-		std::cout << "bullets created" << std::endl;
+		//std::cout << "bullets created" << std::endl;
 	};
 
 	const float playerSpeed = 250.f;
@@ -124,17 +124,15 @@ void Character::jumpInterval() {
 void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
 	//std::cout << "checking Jump rate.." << std::endl;
 		jumpInterval();
-			//std::cout << "checkJumpRate: jmpCD: " << (mJumpCountdown <= sf::Time::Zero) << std::endl;
 	// Check for automatic jump, allow only in intervals
 	if (mJumpRate && mJumpCountdown <= sf::Time::Zero) {
+		
 		//jump if cooldown is down
-		//std::cout << "set CD" << std::endl;
-		//commands.push(mJumpCommand);
 		mJumpCountdown += Table[mType].jumpInterval / (mJumpRateLevel + 1.f);
 		mJumpRate = false;
 	}
 	else if (mJumpCountdown > sf::Time::Zero) {
-		//std::cout << "mJumpcommand is > Zero...." << std::endl;
+
 		//decrease the countdown
 		mJumpCountdown -= dt;
 		mJumpRate = false;
@@ -144,6 +142,7 @@ void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
 //method to start shooting
 void Character::shoot(){
 	//std::cout << "shoot() called..";
+
 	// Only characters with fire interval != 0 are able to fire
 	if (Table[mType].fireInterval != sf::Time::Zero) {
 		mIsFiring = true;
@@ -158,17 +157,17 @@ bool Character::isAllied() const{
 //check if bullet launched
 void Character::checkBulletLaunch(sf::Time dt, CommandQueue& commands){
 	//std::cout << "checking bullet launch..";
-	//lets enemies fire all the time
+
 	// Check for automatic gunfire, allow only in intervals
 	if (mIsFiring && mFireCountdown <= sf::Time::Zero){
 		//shoot bullet if cooldown is down
-		//std::cout << "pushing mFireCommand..\n";
+
 		commands.push(mFireCommand);
 		mFireCountdown += Table[mType].fireInterval / (mFireRateLevel + 1.f);
 		mIsFiring = false;
 	}
 	else if (mFireCountdown > sf::Time::Zero){
-		//std::cout << "mFireCountdown is > Zero....";
+
 		//decrease the countdown
 		mFireCountdown -= dt;
 		mIsFiring = false;
@@ -185,7 +184,7 @@ void Character::createBullets(SceneNode& node, const TextureHolder& textures) co
 
 //func to createprojectiles using nodes and info from createbullets etc
 void Character::createProjectile(SceneNode& node, Weapon::Type type, float xOffset, float yOffset, const TextureHolder& textures) const{
-	//std::cout << "createProjectile Called...";
+
 
 	//creating a bullet
 	std::unique_ptr<Weapon> projectile(new Weapon(type, textures));
@@ -195,7 +194,7 @@ void Character::createProjectile(SceneNode& node, Weapon::Type type, float xOffs
 	sf::Vector2f velocity(0, projectile->getMaxSpeed());
 	float sign = isAllied() ? -1.f : +1.f;
 	projectile->setPosition(getWorldPosition() + offset * sign);
-	//projectile->setVelocity(velocity * sign);
+
 	//move the bullet
 	node.attachChild(std::move(projectile));
 	//std::cout << "I should be shooting now...";

@@ -9,14 +9,10 @@ namespace sf
 //all textures for scenenodes
 namespace Textures{
 	enum ID{
-		PlayerUp,
 		Player,
-		PlayerLeft,
-		PlayerRight,
 		Enemy,
 		Background,
 		Ball,
-		Bomb,
 		TextureCount,
 		ButtonNormal,
 		ButtonSelected,
