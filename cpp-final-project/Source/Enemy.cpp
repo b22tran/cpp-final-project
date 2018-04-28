@@ -79,7 +79,8 @@ sf::Keyboard::Key Enemy::getAssignedKey(Action action) const {
 void Enemy::initializeActions() {
 	const float playerSpeed = 250.f;
 
-	mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {std::cout << "Enemy Up Called!! Yay" << std::endl; });
+	mActionBinding[MoveUp].action = derivedAction<Character>(CharacterMover(0.f, -playerSpeed * 5));
+
 	//mActionBinding[MoveUp].action = derivedAction<Character>([](Character& c, sf::Time) {
 	//	c.jumpInterval();
 	//});
