@@ -8,6 +8,19 @@
 #include <cmath>
 #include <iostream>
 
+struct CharacterJumper {
+	CharacterJumper(float vx, float vy)
+		: velocity(vx, vy) {
+	}
+
+	void operator() (Character& character, sf::Time) const {
+		std::cout << "jumped" << std::endl;
+		character.accelerate(velocity);
+	}
+
+	sf::Vector2f velocity;
+};
+
 namespace{
 	const std::vector<CharacterData> Table = initializeCharacterData();
 }
@@ -30,19 +43,17 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 		createBullets(node, textures);
 		std::cout << "bullets created" << std::endl;
 	};
-}**/, mJumpCommand() {
-	std::cout << "Jumped" << std::endl;
-	mJumpCommand.action = [this, &textures](SceneNode& node, sf::Time) {
-	
-
-	};
+}**/,mJumpCommand()
+{
+	const float playerSpeed = 250.f;
+	mJumpCommand.action = derivedAction<Character>(CharacterJumper(0.f, -playerSpeed * 6));
 }
 
 //updateCurrent for character
 void Character::updateCurrent(sf::Time dt, CommandQueue& commands){
 	
 	// Check if ball or bomb are fired
-	checkBulletLaunch(dt, commands);
+	//checkBulletLaunch(dt, commands);
 
 	//check if Jumped 
 	checkJumpRate(dt, commands);
@@ -110,19 +121,18 @@ void Character::jumpInterval() {
 //check if jumped
 void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
 	//std::cout << "checking Jump rate.." << std::endl;
-	if (!isAllied()) {
 		jumpInterval();
-	}
+			//std::cout << "checkJumpRate: jmpCD: " << (mJumpCountdown <= sf::Time::Zero) << std::endl;
 	// Check for automatic jump, allow only in intervals
 	if (mJumpRate && mJumpCountdown <= sf::Time::Zero) {
 		//jump if cooldown is down
-		//std::cout << "pushing mJumpCommand..\n";
-		commands.push(mJumpCommand);
+		std::cout << "set CD" << std::endl;
+		//commands.push(mJumpCommand);
 		mJumpCountdown += Table[mType].jumpInterval / (mJumpRateLevel + 1.f);
 		mJumpRate = false;
 	}
 	else if (mJumpCountdown > sf::Time::Zero) {
-		//std::cout << "mJumpcommand is > Zero....";
+		//std::cout << "mJumpcommand is > Zero...." << std::endl;
 		//decrease the countdown
 		mJumpCountdown -= dt;
 		mJumpRate = false;

@@ -27,7 +27,7 @@ World::World(sf::RenderWindow& window)
 	// Prepare the view
 	//mWorldView.setCenter(mSpawnPosition);
 	mPlayerCharacter->setPosition(600.f, mWorldBounds.height - mWorldView.getSize().y / 2);
-	mEnemyCharacter->setPosition(100.f, mWorldBounds.height - mWorldView.getSize().y / 2);
+	mEnemyCharacter->setPosition(160.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
 
 void World::update(sf::Time dt)
@@ -81,8 +81,13 @@ void World::adaptPlayerPosition()
 	sf::Vector2f position = mPlayerCharacter->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance*2));
+	position.y = std::max(position.y, viewBounds.top);
+	if (position.x > 145.0f && position.x < 755) {
+		position.y = std::min(position.y, viewBounds.top + viewBounds.height - 100.0f - (borderDistance * 2));
+	}
+	else {
+		position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
+	}
 	mPlayerCharacter->setPosition(position);
 }
 
@@ -96,7 +101,12 @@ void World::adaptEnemyPosition()
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
+	if (position.x > 145.0f && position.x < 755) {
+		position.y = std::min(position.y, viewBounds.top + viewBounds.height - 100.0f - (borderDistance * 2));
+	}
+	else {
+		position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
+	}
 	mEnemyCharacter->setPosition(position);
 }
 

@@ -22,6 +22,7 @@ class GameState : public State
 	private:
 		World				mWorld;
 		Player&				mPlayer;
+		Player&				mPlayer2;
 };
 
 #endif // BOOK_GAMESTATE_HPP

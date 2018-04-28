@@ -26,6 +26,8 @@ class Character : public Actor
 				float toRadian(float degree);
 		bool isAllied() const;
 		void jumpInterval();
+		bool mJumpRate;
+		sf::Time mJumpCountdown;
 
 		virtual sf::FloatRect getBoundingRect() const;
 
@@ -40,7 +42,6 @@ class Character : public Actor
 		void updateCurrent(sf::Time dt, CommandQueue& commands);
 		void checkJumpRate(sf::Time dt, CommandQueue& commands);
 
-		bool mJumpRate;
 		int mJumpRateLevel;
 		int mFireRateLevel;
 		float mTravelledDistance;
@@ -51,7 +52,6 @@ class Character : public Actor
 		sf::Time mFireCountdown;
 		std::size_t mDirectionIndex;
 		sf::Sprite mSprite;
-		sf::Time mJumpCountdown;
 		Command mJumpCommand;
 };
 
