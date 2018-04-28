@@ -24,13 +24,16 @@ public:
 
 	struct Context
 	{
+
 		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Player& player2);
 
 		sf::RenderWindow*	window;
 		TextureHolder*		textures;
 		FontHolder*			fonts;
 		Player*				player;
+
 		Player*				player2;
+
 	};
 
 

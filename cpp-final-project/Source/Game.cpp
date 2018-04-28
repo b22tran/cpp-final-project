@@ -4,6 +4,7 @@
 #include "StateIdentifiers.hpp"
 #include "TitleState.hpp"
 #include "GameState.hpp"
+#include "GameState2.hpp"
 #include "MenuState.hpp"
 #include "PauseState.hpp"
 #include "SettingState.hpp"
@@ -22,12 +23,11 @@ Game::Game() : mWindow(sf::VideoMode(960, 460), "Super Slash Bros!", sf::Style::
 , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mPlayer2))
 , mStatisticsText()
 , mStatisticsUpdateTime()
-, mStatisticsNumFrames(0){
+, mStatisticsNumFrames(0)
+{
 	mWindow.setKeyRepeatEnabled(false);
-
 	mFonts.load(Fonts::Main, "Media/kenny.ttf");
-
-	mTextures.load(Textures::TitleScreen, "Media/Textures/Title.png");
+	mTextures.load(Textures::TitleScreen, "Media/Textures/Title.jpg");
 	mTextures.load(Textures::ButtonNormal, "Media/Textures/ButtonNormal.png");
 	mTextures.load(Textures::ButtonSelected, "Media/Textures/ButtonSelected.png");
 	mTextures.load(Textures::ButtonPressed, "Media/Textures/ButtonPressed.png");
@@ -120,6 +120,7 @@ void Game::registerStates()
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<GameState2>(States::Game2);
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<SettingsState>(States::Settings);
 }
