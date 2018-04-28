@@ -195,7 +195,7 @@ void Character::createProjectile(SceneNode& node, Weapon::Type type, float xOffs
 	sf::Vector2f velocity(0, projectile->getMaxSpeed());
 	float sign = isAllied() ? -1.f : +1.f;
 	projectile->setPosition(getWorldPosition() + offset * sign);
-	projectile->setVelocity(velocity * sign);
+	//projectile->setVelocity(velocity * sign);
 	//move the bullet
 	node.attachChild(std::move(projectile));
 	//std::cout << "I should be shooting now...";
