@@ -23,7 +23,7 @@ class GameState : public State
 	private:
 		World				mWorld;
 		Player&				mPlayer;
-		Enemy& mEnemy;
+		Enemy&			mEnemy;
 };
 
 #endif // BOOK_GAMESTATE_HPP

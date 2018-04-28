@@ -4,6 +4,7 @@
 #include "State.hpp"
 #include "World2.hpp"
 #include "Player.hpp"
+#include "Enemy.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -22,6 +23,7 @@ public:
 private:
 	World2				mWorld;
 	Player&				mPlayer;
+	Enemy&			mEnemy;
 };
 
 #endif // BOOK_GAMESTATE2_HPP

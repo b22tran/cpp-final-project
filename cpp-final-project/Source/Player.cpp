@@ -94,8 +94,8 @@ void Player::initializeActions(){
 
 		mActionBinding[MoveUp].action = derivedAction<Character>(CharacterJumper(0.f, -playerSpeed * 5));
 		//mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
-		mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed * 2, 0.f));
-		mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed * 2, 0.f));
+		mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
+		mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
 		mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
 			c.shoot();
 		});

@@ -82,7 +82,7 @@ void World2::adaptPlayerPosition()
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height -90.0f- (borderDistance * 2));
 	mPlayerCharacter->setPosition(position);
 }
 
@@ -96,7 +96,7 @@ void World2::adaptEnemyPosition()
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - (borderDistance * 2));
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - 90.0f - (borderDistance * 2));
 	mEnemyCharacter->setPosition(position);
 }
 

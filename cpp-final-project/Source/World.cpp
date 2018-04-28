@@ -100,7 +100,7 @@ void World::adaptEnemyPosition()
 	sf::Vector2f position = mEnemyCharacter->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
-	position.y = std::max(position.y, viewBounds.top + borderDistance);
+	position.y = std::max(position.y, viewBounds.top);
 	if (position.x > 145.0f && position.x < 755) {
 		position.y = std::min(position.y, viewBounds.top + viewBounds.height - 100.0f - (borderDistance * 2));
 	}
