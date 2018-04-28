@@ -27,7 +27,7 @@ World::World(sf::RenderWindow& window)
 	// Prepare the view
 	//mWorldView.setCenter(mSpawnPosition);
 	mPlayerCharacter->setPosition(600.f, mWorldBounds.height - mWorldView.getSize().y / 2);
-	mEnemyCharacter->setPosition(160.f, mWorldBounds.height - mWorldView.getSize().y / 2);
+	mEnemyCharacter->setPosition(300.f, mWorldBounds.height - mWorldView.getSize().y / 2);
 }
 
 void World::update(sf::Time dt)
