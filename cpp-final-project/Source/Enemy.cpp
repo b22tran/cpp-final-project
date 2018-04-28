@@ -92,6 +92,7 @@ void Enemy::initializeActions() {
 	mActionBinding[MoveLeft].action = derivedAction<Character>(CharacterMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Character>(CharacterMover(+playerSpeed, 0.f));
 	mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
+		std::cout << "shoot is pressed" << std::endl;
 		c.shoot();
 	});
 }

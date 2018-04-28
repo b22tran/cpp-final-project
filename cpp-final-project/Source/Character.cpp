@@ -33,7 +33,11 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 , mJumpRate(false)
 , mJumpCountdown(sf::Time::Zero)
 , mJumpRateLevel(1)
-/**, mFireCommand(){
+, mJumpCommand()
+, mFireCountdown(sf::Time::Zero)
+, mIsFiring(false)
+, mFireRateLevel(1)
+, mFireCommand(){
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
@@ -43,8 +47,7 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 		createBullets(node, textures);
 		std::cout << "bullets created" << std::endl;
 	};
-}**/,mJumpCommand()
-{
+
 	const float playerSpeed = 250.f;
 	mJumpCommand.action = derivedAction<Character>(CharacterJumper(0.f, -playerSpeed * 6));
 }
@@ -53,8 +56,7 @@ Character::Character(Type type, const TextureHolder& textures) : Actor(Table[typ
 void Character::updateCurrent(sf::Time dt, CommandQueue& commands){
 	
 	// Check if ball or bomb are fired
-	//checkBulletLaunch(dt, commands);
-
+	checkBulletLaunch(dt, commands);
 	//check if Jumped 
 	checkJumpRate(dt, commands);
 	// Update enemy movement pattern; apply velocity
@@ -126,7 +128,7 @@ void Character::checkJumpRate(sf::Time dt, CommandQueue& commands) {
 	// Check for automatic jump, allow only in intervals
 	if (mJumpRate && mJumpCountdown <= sf::Time::Zero) {
 		//jump if cooldown is down
-		std::cout << "set CD" << std::endl;
+		//std::cout << "set CD" << std::endl;
 		//commands.push(mJumpCommand);
 		mJumpCountdown += Table[mType].jumpInterval / (mJumpRateLevel + 1.f);
 		mJumpRate = false;
@@ -157,9 +159,6 @@ bool Character::isAllied() const{
 void Character::checkBulletLaunch(sf::Time dt, CommandQueue& commands){
 	//std::cout << "checking bullet launch..";
 	//lets enemies fire all the time
-	if (!isAllied()) {
-		shoot();
-	}
 	// Check for automatic gunfire, allow only in intervals
 	if (mIsFiring && mFireCountdown <= sf::Time::Zero){
 		//shoot bullet if cooldown is down
@@ -196,7 +195,7 @@ void Character::createProjectile(SceneNode& node, Weapon::Type type, float xOffs
 	sf::Vector2f velocity(0, projectile->getMaxSpeed());
 	float sign = isAllied() ? -1.f : +1.f;
 	projectile->setPosition(getWorldPosition() + offset * sign);
-	projectile->setVelocity(velocity * sign);
+	//projectile->setVelocity(velocity * sign);
 	//move the bullet
 	node.attachChild(std::move(projectile));
 	//std::cout << "I should be shooting now...";
