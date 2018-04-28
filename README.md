@@ -15,7 +15,7 @@ When starting up the game, you'll be taken to the menu where the player may have
 
 When selecting either Play Level 1 or Play Level 2, two characters are spawned with finite hidden health (feature) which have the objective to elimiated the other. Each character fires projectiles respectively.
 
-			Player 1 Controls	|	Player 2 Controls
+		Player 1 Controls	|	Player 2 Controls
 	Left	left arrow				A
 	Right	right arrow				D
 	Jump	up arrow				W
