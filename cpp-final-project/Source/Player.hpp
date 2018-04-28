@@ -14,11 +14,6 @@ class Player{
 			MoveUp,
 			MoveDown,
 			Attack,
-			MoveLeft2,
-			MoveRight2,
-			MoveUp2,
-			MoveDown2,
-			Attack2,
 			ActionCount
 		};
 		enum PlayerType {

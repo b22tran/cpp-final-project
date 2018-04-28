@@ -50,11 +50,11 @@ Player::Player(Player::PlayerType type){
 			pair.second.category = Category::PlayerCharacter;
 	}
 	if (mType == PlayerType::P2) {
-		mKeyBinding2[sf::Keyboard::W] = MoveUp2;
-		mKeyBinding2[sf::Keyboard::S] = MoveDown2;
-		mKeyBinding2[sf::Keyboard::A] = MoveLeft2;
-		mKeyBinding2[sf::Keyboard::D] = MoveRight2;
-		mKeyBinding2[sf::Keyboard::F] = Attack2;// Set initial action bindings
+		mKeyBinding2[sf::Keyboard::W] = MoveUp;
+		mKeyBinding2[sf::Keyboard::S] = MoveDown;
+		mKeyBinding2[sf::Keyboard::A] = MoveLeft;
+		mKeyBinding2[sf::Keyboard::D] = MoveRight;
+		mKeyBinding2[sf::Keyboard::F] = Attack;// Set initial action bindings
 		initializeActions();
 
 		// Assign all categories to player's body
@@ -151,7 +151,6 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const{
 
 void Player::initializeActions(){
 	const float playerSpeed = 250.f;
-	if (mType == PlayerType::P1) {
 
 		mActionBinding[MoveUp].action = derivedAction<Character>(CharacterJumper(0.f, -playerSpeed * 5));
 		//mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
@@ -160,16 +159,8 @@ void Player::initializeActions(){
 		mActionBinding[Attack].action = derivedAction<Character>([](Character& c, sf::Time) {
 			c.shoot();
 		});
-	}
-	if (mType == PlayerType::P2){
-		mActionBinding[MoveUp2].action = derivedAction<Character>(CharacterJumper(0.f, -playerSpeed * 5));
-		//mActionBinding[MoveDown].action = derivedAction<Character>(CharacterMover(0.f, +playerSpeed));
-		mActionBinding[MoveLeft2].action = derivedAction<Character>(CharacterMover(-playerSpeed * 2, 0.f));
-		mActionBinding[MoveRight2].action = derivedAction<Character>(CharacterMover(+playerSpeed * 2, 0.f));
-		mActionBinding[Attack2].action = derivedAction<Character>([](Character& c, sf::Time) {
-			c.shoot();
-		});
-	}
+	
+
 }
 
 bool Player::isRealtimeAction(Action action){
@@ -179,11 +170,6 @@ bool Player::isRealtimeAction(Action action){
 		case MoveDown:
 		case MoveUp:
 		case Attack:
-		case MoveLeft2:
-		case MoveRight2:
-		case MoveDown2:
-		case MoveUp2:
-		case Attack2:
 			return true;
 		default:
 			return false;

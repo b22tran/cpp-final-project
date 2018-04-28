@@ -1,6 +1,7 @@
 #pragma once
 #include "World.hpp"
 #include "Player.hpp"
+#include "Enemy.h"
 #include "ResourceHolder.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "StateStack.hpp"
@@ -28,6 +29,7 @@ private:
 		World mWorld;
 		Player mPlayer;
 		Player mPlayer2;
+		Enemy mEnemy;
 		StateStack mStateStack;
 		TextureHolder			mTextures;
 		FontHolder				mFonts;

@@ -154,7 +154,6 @@ void World::buildScene(){
 	mPlayerCharacter->setPosition(mSpawnPosition);
 	mSceneLayers[Air]->attachChild(std::move(player));
 
-
 	// Add second player's character
 	std::unique_ptr<Character> enemy(new Character(Character::Enemy, mTextures));
 	mEnemyCharacter = enemy.get();

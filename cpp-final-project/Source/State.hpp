@@ -16,6 +16,7 @@ namespace sf
 
 class StateStack;
 class Player;
+class Enemy;
 
 class State
 {
@@ -25,14 +26,14 @@ public:
 	struct Context
 	{
 
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Player& player2);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Player& player2, Enemy& enemy);
 
 		sf::RenderWindow*	window;
 		TextureHolder*		textures;
 		FontHolder*			fonts;
 		Player*				player;
-
 		Player*				player2;
+		Enemy* enemy;
 
 	};
 
