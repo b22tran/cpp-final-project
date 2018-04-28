@@ -4,6 +4,7 @@
 #include "StateIdentifiers.hpp"
 #include "TitleState.hpp"
 #include "GameState.hpp"
+#include "GameState2.hpp"
 #include "MenuState.hpp"
 #include "PauseState.hpp"
 #include "SettingState.hpp"
@@ -117,6 +118,7 @@ void Game::registerStates()
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<GameState2>(States::Game2);
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<SettingsState>(States::Settings);
 }
