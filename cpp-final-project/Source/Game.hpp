@@ -28,7 +28,6 @@ private:
 		sf::RenderWindow mWindow;
 		World mWorld;
 		Player mPlayer;
-		Player mPlayer2;
 		Enemy mEnemy;
 		StateStack mStateStack;
 		TextureHolder			mTextures;

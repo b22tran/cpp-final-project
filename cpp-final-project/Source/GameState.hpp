@@ -23,7 +23,6 @@ class GameState : public State
 	private:
 		World				mWorld;
 		Player&				mPlayer;
-		Player&				mPlayer2;
 		Enemy& mEnemy;
 };
 

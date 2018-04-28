@@ -26,13 +26,12 @@ public:
 	struct Context
 	{
 
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Player& player2, Enemy& enemy);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Enemy& enemy);
 
 		sf::RenderWindow*	window;
 		TextureHolder*		textures;
 		FontHolder*			fonts;
 		Player*				player;
-		Player*				player2;
 		Enemy* enemy;
 
 	};

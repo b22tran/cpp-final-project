@@ -16,13 +16,9 @@ class Player{
 			Attack,
 			ActionCount
 		};
-		enum PlayerType {
-			P1,
-			P2
-		};
 
 	public:
-		Player(PlayerType);
+		Player();
 		void handleEvent(const sf::Event& event, CommandQueue& commands);
 		void handleRealtimeInput(CommandQueue& commands);
 		void assignKey(Action action, sf::Keyboard::Key key);
@@ -36,7 +32,6 @@ class Player{
 		static bool isRealtimeAction(Action action);
 
 		bool canJump;
-		PlayerType mType;
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding;
 		std::map<sf::Keyboard::Key, Action>		mKeyBinding2;
 

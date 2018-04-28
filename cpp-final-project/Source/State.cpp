@@ -2,12 +2,11 @@
 #include "StateStack.hpp"
 
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Player& player2, Enemy& enemy)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, Enemy& enemy)
 	: window(&window)
 	, textures(&textures)
 	, fonts(&fonts)
 	, player(&player)
-	, player2(&player)
 	, enemy(&enemy)
 {
 }

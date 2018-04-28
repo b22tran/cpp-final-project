@@ -17,11 +17,10 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
 
 Game::Game() : mWindow(sf::VideoMode(960, 460), "Super Slash Bros!", sf::Style::Close)
 , mWorld(mWindow)
-, mPlayer(Player::PlayerType::P1)
-, mPlayer2(Player::PlayerType::P2)
+, mPlayer()
 , mEnemy()
 , mFonts()
-, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mPlayer2, mEnemy))
+, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer, mEnemy))
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
@@ -74,14 +73,12 @@ void Game::processInput(){
 	while (mWindow.pollEvent(event)){
 		mStateStack.handleEvent(event);
 		mPlayer.handleEvent(event, commands);
-		mPlayer2.handleEvent(event, commands);
 		mEnemy.handleEvent(event, commands);
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
 	}
 
 	mPlayer.handleRealtimeInput(commands);
-	mPlayer2.handleRealtimeInput(commands);
 	mEnemy.handleRealtimeInput(commands);
 }
 
