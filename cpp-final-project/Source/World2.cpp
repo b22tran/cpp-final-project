@@ -45,6 +45,12 @@ void World2::update(sf::Time dt)
 		adaptEnemyVelocity();
 	}
 
+	//handle collisions
+	handleCollisions();
+
+	// Remove all destroyed entities, create new ones
+	mSceneGraph.removeWrecks();
+
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -68,6 +74,7 @@ void World2::loadTextures()
 	mTextures.load(Textures::Player, "Media/Textures/Char1.png");
 	mTextures.load(Textures::Enemy, "Media/Textures/Char2.png");
 	mTextures.load(Textures::Background, "Media/Textures/Background-2.png");
+	mTextures.load(Textures::Ball, "Media/Textures/Char1Attack.png");
 }
 
 
@@ -163,5 +170,56 @@ sf::FloatRect World2::getViewBounds() const {
 	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
 }
 
+bool World2::matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2)
+{
+	unsigned int category1 = colliders.first->getCategory();
+	unsigned int category2 = colliders.second->getCategory();
+
+	// Make sure first pair entry has category type1 and second has type2
+	if (type1 & category1 && type2 & category2)
+	{
+		return true;
+	}
+	else if (type1 & category2 && type2 & category1)
+	{
+		std::swap(colliders.first, colliders.second);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+void World2::handleCollisions()
+{
+	std::set<SceneNode::Pair> collisionPairs;
+	mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
+
+	FOREACH(SceneNode::Pair pair, collisionPairs) {
+		if (matchesCategories(pair, Category::PlayerCharacter, Category::EnemyCharacter)) {
+			//set first to play, second to enemy
+			auto& player = static_cast<Character&>(*pair.first);
+			auto& enemy = static_cast<Character&>(*pair.second);
+			//player.dmg(enemy.getHP());
+			//enemy.destroy();
+			std::cout << "You bumped into someone!" << std::endl << "Current HP: " << player.getHP() << std::endl;
+		}
+
+		//else if someone gets hit by a projectile
+		else if (matchesCategories(pair, Category::EnemyCharacter, Category::PlayerBullet)
+			|| matchesCategories(pair, Category::PlayerCharacter, Category::EnemyBullet)) {
+			//set types
+			auto& enemy = static_cast<Character&>(*pair.first);
+			auto& projectile = static_cast<Weapon&>(*pair.second);
+
+			// Apply projectile damage to character, destroy projectile
+			std::cout << "Projectile hit someone!" << std::endl << "Enemy HP: " << enemy.getHP() << std::endl;;
+			enemy.dmg(projectile.getDamage());
+			projectile.destroy();
+		}
+	}
+}
 
 

@@ -22,6 +22,7 @@ public:
 	void update(sf::Time dt);
 	void draw();
 	float randNum(float min, float max);
+	bool matchesCategories(SceneNode::Pair& colliders, Category::Type type1, Category::Type type2);
 
 	CommandQueue& getCommandQueue();
 
@@ -33,6 +34,7 @@ private:
 	void adaptPlayerVelocity();
 	void adaptEnemyPosition();
 	void adaptEnemyVelocity();
+	void handleCollisions();
 
 	sf::FloatRect getViewBounds() const;
 
