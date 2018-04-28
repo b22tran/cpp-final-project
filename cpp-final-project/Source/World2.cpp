@@ -76,13 +76,13 @@ void World2::adaptPlayerPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds = getViewBounds();
-	const float borderDistance = 50.0f;
+	const float borderDistance = 30.0f;
 
 	sf::Vector2f position = mPlayerCharacter->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height -90.0f- (borderDistance * 2));
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height -90.0f- (borderDistance * 1.5f));
 	mPlayerCharacter->setPosition(position);
 }
 
@@ -90,13 +90,13 @@ void World2::adaptEnemyPosition()
 {
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	sf::FloatRect viewBounds = getViewBounds();
-	const float borderDistance = 50.0f;
+	const float borderDistance = 30.0f;
 
 	sf::Vector2f position = mEnemyCharacter->getPosition();
 	position.x = std::max(position.x, viewBounds.left + borderDistance - 30.f);
 	position.x = std::min(position.x, viewBounds.left + viewBounds.width - borderDistance);
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
-	position.y = std::min(position.y, viewBounds.top + viewBounds.height - 90.0f - (borderDistance * 2));
+	position.y = std::min(position.y, viewBounds.top + viewBounds.height - 90.0f - (borderDistance * 1.5f));
 	mEnemyCharacter->setPosition(position);
 }
 
